@@ -36,6 +36,7 @@ import '@ionic/react/css/display.css';
 /* Theme variables */
 import './theme/variables.css';
 import { useRef, useState } from 'react';
+import BmiControllers from './components/BmiControllers';
 
 setupIonicReact();
 
@@ -82,25 +83,7 @@ const App: React.FC = () => {
                 </IonItem>
 
                 <IonGrid className='ion-margin ion-text-center'>
-                    <IonRow>
-                        <IonCol>
-                            <IonButton onClick={calculateBmi}>
-                                Calculate
-                                <IonIcon slot='end' icon={calculatorOutline} />
-                            </IonButton>
-                        </IonCol>
-                        <IonCol>
-                            <IonButton
-                                onClick={resetInputs}
-                                color='danger'
-                                fill='outline'
-                                id='reset-btn'
-                            >
-                                Reset
-                                <IonIcon slot='end' icon={refreshOutline} />
-                            </IonButton>
-                        </IonCol>
-                    </IonRow>
+                    <BmiControllers onCalculate={calculateBmi} onReset={resetInputs} />
                     <IonRow>
                         <IonCol> {bmi && <h2>Your bmi is: {bmi}</h2>} </IonCol>
                     </IonRow>

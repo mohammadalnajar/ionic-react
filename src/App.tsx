@@ -36,7 +36,7 @@ import BmiResult from './components/BmiResult';
 setupIonicReact();
 
 const App: React.FC = () => {
-    const [bmi, setBmi] = useState<number>(0);
+    const [bmi, setBmi] = useState<number | undefined>(undefined);
 
     const weightInputRef = useRef<HTMLIonInputElement>(null);
     const heightInputRef = useRef<HTMLIonInputElement>(null);
@@ -57,7 +57,7 @@ const App: React.FC = () => {
         weightInputRef.current!.value = '';
         heightInputRef.current!.value = '';
 
-        setBmi(0);
+        setBmi(undefined);
     };
 
     return (

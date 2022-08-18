@@ -1,21 +1,15 @@
 import {
     IonApp,
-    IonButton,
-    IonCol,
     IonContent,
     IonGrid,
     IonHeader,
-    IonIcon,
     IonInput,
     IonItem,
     IonLabel,
-    IonRow,
     IonTitle,
     IonToolbar,
     setupIonicReact
 } from '@ionic/react';
-
-import { calculatorOutline, refreshOutline } from 'ionicons/icons';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -37,11 +31,12 @@ import '@ionic/react/css/display.css';
 import './theme/variables.css';
 import { useRef, useState } from 'react';
 import BmiControllers from './components/BmiControllers';
+import BmiResult from './components/BmiResult';
 
 setupIonicReact();
 
 const App: React.FC = () => {
-    const [bmi, setBmi] = useState<number>();
+    const [bmi, setBmi] = useState<number>(0);
 
     const weightInputRef = useRef<HTMLIonInputElement>(null);
     const heightInputRef = useRef<HTMLIonInputElement>(null);
@@ -62,7 +57,7 @@ const App: React.FC = () => {
         weightInputRef.current!.value = '';
         heightInputRef.current!.value = '';
 
-        setBmi(undefined);
+        setBmi(0);
     };
 
     return (
@@ -84,9 +79,7 @@ const App: React.FC = () => {
 
                 <IonGrid className='ion-margin ion-text-center'>
                     <BmiControllers onCalculate={calculateBmi} onReset={resetInputs} />
-                    <IonRow>
-                        <IonCol> {bmi && <h2>Your bmi is: {bmi}</h2>} </IonCol>
-                    </IonRow>
+                    <BmiResult bmi={bmi} />
                 </IonGrid>
             </IonContent>
         </IonApp>

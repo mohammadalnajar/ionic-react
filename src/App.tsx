@@ -1,11 +1,15 @@
 import {
     IonApp,
+    IonCol,
     IonContent,
     IonGrid,
     IonHeader,
     IonInput,
     IonItem,
     IonLabel,
+    IonRow,
+    IonSegment,
+    IonSegmentButton,
     IonTitle,
     IonToolbar,
     setupIonicReact,
@@ -38,6 +42,8 @@ setupIonicReact();
 
 const App: React.FC = () => {
     const [bmi, setBmi] = useState<number | undefined>(undefined);
+    const [method, setMethod] = useState<string | undefined>('metric');
+
     const [presentAlert] = useIonAlert();
 
     const weightInputRef = useRef<HTMLIonInputElement>(null);
@@ -59,7 +65,10 @@ const App: React.FC = () => {
             return;
         }
 
-        const bmiCal = +(+weight / (+height * +height)).toFixed(2);
+        const bmiCal =
+            method === 'metric'
+                ? +(+weight / (+height * +height)).toFixed(2)
+                : +((+weight * 703) / (+height * +height)).toFixed(2);
         setBmi(bmiCal);
     };
 
@@ -76,6 +85,19 @@ const App: React.FC = () => {
                 <IonToolbar>
                     <IonTitle>BMI Calculator</IonTitle>
                 </IonToolbar>
+                <IonSegment
+                    value={method}
+                    onIonChange={(e) => {
+                        setMethod(e.detail.value);
+                    }}
+                >
+                    <IonSegmentButton value='metric'>
+                        <IonLabel>meter/kg</IonLabel>
+                    </IonSegmentButton>
+                    <IonSegmentButton value='imperial'>
+                        <IonLabel>inches/pounds</IonLabel>
+                    </IonSegmentButton>
+                </IonSegment>
             </IonHeader>
             <IonContent>
                 <IonItem>

@@ -8,7 +8,8 @@ import {
     IonLabel,
     IonTitle,
     IonToolbar,
-    setupIonicReact
+    setupIonicReact,
+    useIonAlert
 } from '@ionic/react';
 
 /* Core CSS required for Ionic components to work properly */
@@ -37,6 +38,7 @@ setupIonicReact();
 
 const App: React.FC = () => {
     const [bmi, setBmi] = useState<number | undefined>(undefined);
+    const [presentAlert] = useIonAlert();
 
     const weightInputRef = useRef<HTMLIonInputElement>(null);
     const heightInputRef = useRef<HTMLIonInputElement>(null);
@@ -45,11 +47,19 @@ const App: React.FC = () => {
         const weight = weightInputRef.current?.value;
         const height = heightInputRef.current?.value;
 
-        if (!weight || !height) {
+        if (!weight || !height || height <= 0 || weight <= 0) {
+            presentAlert({
+                header: 'Alert',
+                subHeader: 'Important message',
+                message: 'Please fill in both fields with positive numbers!',
+                buttons: ['OK']
+            });
+
+            resetInputs();
             return;
         }
 
-        const bmiCal = +weight / (+height * +height);
+        const bmiCal = +(+weight / (+height * +height)).toFixed(2);
         setBmi(bmiCal);
     };
 
@@ -70,11 +80,11 @@ const App: React.FC = () => {
             <IonContent>
                 <IonItem>
                     <IonLabel position='floating'>Your Height</IonLabel>
-                    <IonInput ref={heightInputRef} id='height-input'></IonInput>
+                    <IonInput type='number' ref={heightInputRef} id='height-input'></IonInput>
                 </IonItem>
                 <IonItem>
                     <IonLabel position='floating'>Your Weight</IonLabel>
-                    <IonInput ref={weightInputRef} id='weight-input'></IonInput>
+                    <IonInput type='number' ref={weightInputRef} id='weight-input'></IonInput>
                 </IonItem>
 
                 <IonGrid className='ion-margin ion-text-center'>

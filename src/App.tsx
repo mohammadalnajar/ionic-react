@@ -34,15 +34,16 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
-import { useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import BmiControllers from './components/BmiControllers';
 import BmiResult from './components/BmiResult';
+import InputControl from './components/InputControl';
 
 setupIonicReact();
 
 const App: React.FC = () => {
     const [bmi, setBmi] = useState<number | undefined>(undefined);
-    const [method, setMethod] = useState<string | undefined>('metric');
+    const [method, setMethod] = useState<'metric' | 'imperial'>('metric');
 
     const [presentAlert] = useIonAlert();
 
@@ -79,34 +80,38 @@ const App: React.FC = () => {
         setBmi(undefined);
     };
 
+    const checkEnterKeyPress = (e: any) => {
+        if (e.keyCode === 13) {
+            calculateBmi();
+        }
+    };
+
     return (
         <IonApp>
             <IonHeader>
                 <IonToolbar>
                     <IonTitle>BMI Calculator</IonTitle>
                 </IonToolbar>
-                <IonSegment
-                    value={method}
-                    onIonChange={(e) => {
-                        setMethod(e.detail.value);
-                    }}
-                >
-                    <IonSegmentButton value='metric'>
-                        <IonLabel>meter/kg</IonLabel>
-                    </IonSegmentButton>
-                    <IonSegmentButton value='imperial'>
-                        <IonLabel>inches/pounds</IonLabel>
-                    </IonSegmentButton>
-                </IonSegment>
+                <InputControl setMethod={setMethod} method={method} />
             </IonHeader>
             <IonContent>
                 <IonItem>
                     <IonLabel position='floating'>Your Height</IonLabel>
-                    <IonInput type='number' ref={heightInputRef} id='height-input'></IonInput>
+                    <IonInput
+                        onKeyUp={checkEnterKeyPress}
+                        type='number'
+                        ref={heightInputRef}
+                        id='height-input'
+                    />
                 </IonItem>
                 <IonItem>
                     <IonLabel position='floating'>Your Weight</IonLabel>
-                    <IonInput type='number' ref={weightInputRef} id='weight-input'></IonInput>
+                    <IonInput
+                        onKeyUp={checkEnterKeyPress}
+                        type='number'
+                        ref={weightInputRef}
+                        id='weight-input'
+                    ></IonInput>
                 </IonItem>
 
                 <IonGrid className='ion-margin ion-text-center'>

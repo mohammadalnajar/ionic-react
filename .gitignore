@@ -11,6 +11,7 @@
 # production
 /build
 /android
+/ios
 
 # misc
 .DS_Store
@@ -18,7 +19,6 @@
 .env.development.local
 .env.test.local
 .env.production.local
-.vscode
 .idea
 
 npm-debug.log*
@@ -27,3 +27,7 @@ yarn-error.log*
 
 # Optional eslint cache
 .eslintcache
+branch_structure.json
+temp_auto_push.bat
+temp_interactive_push.bat
+.gitignore
